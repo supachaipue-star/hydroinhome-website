@@ -1,0 +1,167 @@
+<div class="expert-contact-card">
+    <h2>💬 ติดต่อสอบถามผู้เชี่ยวชาญ (Smart Farm IoT & AI)</h2>
+    <p>ปรึกษาการ Transform ฟาร์ม หรือสอบถามข้อมูลเทคโนโลยีไฮโดรโปนิกส์อัจฉริยะ</p>
+    
+    <form id="expertForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <input type="hidden" name="_subject" value="[HydroInHome Expert Inquiry] มีข้อความสอบถามใหม่จากหน้าเว็บ">
+        
+        <div class="form-group">
+            <label for="fullName">ชื่อ-นามสกุล / ชื่อฟาร์ม <span style="color:red">*</span></label>
+            <input type="text" id="fullName" name="name" required placeholder="เช่น คุณสมชาย (กรีนฟาร์ม)">
+        </div>
+
+        <div class="form-group">
+            <label for="userEmail">อีเมลสำหรับติดต่อกลับ <span style="color:red">*</span></label>
+            <input type="email" id="userEmail" name="reply_to" required placeholder="name@example.com">
+        </div>
+
+        <div class="form-group">
+            <label for="userPhone">เบอร์โทรศัพท์</label>
+            <input type="tel" id="userPhone" name="phone" placeholder="08X-XXX-XXXX">
+        </div>
+
+        <div class="form-group">
+            <label for="topic">หัวข้อที่สนใจปรึกษา</label>
+            <select id="topic" name="topic">
+                <option value="IoT & AI Transformation">การเปลี่ยนผ่านฟาร์มสู่ IoT & AI (Transformation)</option>
+                <option value="Smart Sensors & Automation">ระบบเซ็นเซอร์และระบบอัตโนมัติ (Sensors & Controllers)</option>
+                <option value="Seed & Hydroponics Supplies">เมล็ดพันธุ์และอุปกรณ์ไฮโดรโปนิกส์</option>
+                <option value="Other">เรื่องอื่นๆ</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="message">รายละเอียดข้อความสอบถาม <span style="color:red">*</span></label>
+            <textarea id="message" name="message" rows="5" required placeholder="กรอกรายละเอียดความต้องการ หรือคำถามที่คุณต้องการปรึกษาผู้เชี่ยวชาญ..."></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmit">ส่งข้อความถึงผู้เชี่ยวชาญ</button>
+        <div id="formStatus" class="status-message"></div>
+    </form>
+</div>
+
+<style>
+/* Style สำหรับฟอร์ม */
+.expert-contact-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    font-family: 'Kanit', sans-serif;
+}
+.expert-contact-card h2 {
+    color: #1b5e20;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+.expert-contact-card p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+.form-group {
+    margin-bottom: 1.2rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 4px rgba(46, 125, 50, 0.2);
+}
+#btnSubmit {
+    background-color: #1b5e20;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+#btnSubmit:hover {
+    background-color: #2e7d32;
+}
+#btnSubmit:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+.status-message {
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: 6px;
+    display: none;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.status-message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+.status-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+</style>
+
+<script>
+// JavaScript จัดการการส่งฟอร์มด้วย AJAX (Fetch API) โดยไม่ต้องรีเฟรชหน้าเว็บ
+document.getElementById('expertForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // ป้องกันการ reload หน้า
+    
+    const form = e.target;
+    const btnSubmit = document.getElementById('btnSubmit');
+    const statusDiv = document.getElementById('formStatus');
+    
+    // แสดงสถานะกำลังส่ง
+    btnSubmit.disabled = true;
+    btnSubmit.innerText = 'กำลังส่งข้อมูล...';
+    statusDiv.style.display = 'none';
+
+    try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            statusDiv.className = 'status-message success';
+            statusDiv.innerText = '✅ ส่งข้อความสำเร็จ! ผู้เชี่ยวชาญจะติดต่อกลับไปยังอีเมลของคุณโดยเร็วที่สุด';
+            statusDiv.style.display = 'block';
+            form.reset(); // ล้างข้อมูลในฟอร์ม
+        } else {
+            throw new Error('เกิดข้อผิดพลาดในการส่งข้อมูล');
+        }
+    } catch (error) {
+        statusDiv.className = 'status-message error';
+        statusDiv.innerText = '❌ เกิดข้อผิดพลาดในการส่งข้อความ กรุณาลองใหม่อีกครั้ง';
+        statusDiv.style.display = 'block';
+    } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = 'ส่งข้อความถึงผู้เชี่ยวชาญ';
+    }
+});
+</script>
