@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroInHome - Online Showroom & Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #1b5e20;
+            --secondary-green: #2e7d32;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --dark-bg: #111e14;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #666666;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f4;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Layout */
+        header {
+            background: linear-gradient(135deg, #0d3b13 0%, #1b5e20 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-placeholder {
+            width: 55px;
+            height: 55px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid #81c784;
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: -4px;
+        }
+
+        .logo-text span {
+            font-size: 0.85rem;
+            color: #a5d6a7;
+            font-weight: 300;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-toggle-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .admin-toggle-btn:hover {
+            background-color: white;
+            color: var(--primary-green);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.4rem;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 14px;
+            border-radius: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e53935;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(13, 59, 19, 0.85), rgba(27, 94, 32, 0.85)), url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-banner p {
+            font-weight: 300;
+            font-size: 1.1rem;
+            color: #c8e6c9;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem 1rem;
+        }
+
+        /* Filter Controls */
+        .controls-panel {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cat-btn {
+            background-color: #f0f4f1;
+            border: 1px solid #d0e1d4;
+            color: var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background-color: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .search-sort {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input, .sort-select {
+            padding: 8px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .search-input:focus, .sort-select:focus {
+            border-color: var(--accent-green);
+        }
+
+        /* Admin Management Box */
+        .admin-panel {
+            display: none;
+            background: #fff8e1;
+            border: 2px dashed #ffa000;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-panel h3 {
+            color: #b78103;
+            margin-bottom: 1rem;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .admin-form input, .admin-form select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .admin-form button {
+            grid-column: 1 / -1;
+            background: var(--secondary-green);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .badge-hot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e53935;
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #e8f5e9;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-cat {
+            font-size: 0.8rem;
+            color: var(--secondary-green);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+
+        .product-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .btn-add-cart {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-add-cart:hover {
+            background-color: var(--secondary-green);
+        }
+
+        .btn-delete {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: #a5d6a7;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            color: #81c784;
+        }
+
+        .empty-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-placeholder">HIH</div>
+                <div class="logo-text">
+                    <h1>HydroInHome</h1>
+                    <span>Smart Agriculture & Hydroponics Store</span>
+                </div>
+            </div>
+            <div class="header-nav">
+                <button class="admin-toggle-btn" onclick="toggleAdminPanel()">⚙️ จัดการสินค้า (Admin)</button>
+                <div class="cart-icon">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="hero-banner">
+        <h2>ร้านค้าและโชว์รูมสินค้า ไฮโดรอินโฮม</h2>
+        <p>เมล็ดพันธุ์คุณภาพสูง คัดสรรพิเศษ พร้อมโซลูชันเพื่อเกษตรกรยุคใหม่</p>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-container">
+
+        <!-- Panel สำหรับ Admin เพิ่มสินค้าใหม่ -->
+        <div class="admin-panel" id="adminPanel">
+            <h3>➕ ระบบจัดการสินค้า (เพิ่มสินค้าใหม่)</h3>
+            <form class="admin-form" id="addProductForm" onsubmit="handleAddProduct(event)">
+                <input type="text" id="pName" placeholder="ชื่อสินค้า" required>
+                <select id="pCategory" required>
+                    <option value="">-- เลือกหมวดหมู่ --</option>
+                    <option value="coated">เมล็ดผักสลัด (เคลือบ)</option>
+                    <option value="uncoated">เมล็ดผักสลัด (ไม่เคลือบ)</option>
+                    <option value="thai_other">เมล็ดผักไทยและอื่นๆ</option>
+                    <option value="herbs_special">สมุนไพรและพืชพิเศษ</option>
+                    <option value="iot_tech">อุปกรณ์ Smart Sensor & IoT</option>
+                </select>
+                <input type="number" id="pPrice" placeholder="ราคา (บาท)" required>
+                <input type="text" id="pSpec" placeholder="ขนาดบรรจุ (เช่น ซองละ 25 เมล็ด)" required>
+                <input type="text" id="pImg" placeholder="URL รูปภาพ (เว้นว่างไว้หากใช้ภาพเริ่มต้น)">
+                <label style="grid-column: 1 / -1; font-size: 0.9rem;">
+                    <input type="checkbox" id="pHot"> สินค้าขายดี (แสดงแถบ สินค้าขายดี)
+                </label>
+                <button type="submit">บันทึกสินค้าใหม่ลงใน Showroom</button>
+            </form>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="controls-panel">
+            <div class="category-buttons" id="categoryButtons">
+                <button class="cat-btn active" onclick="filterCategory('all')">ทั้งหมด</button>
+                <button class="cat-btn" onclick="filterCategory('coated')">ผักสลัด (เคลือบ)</button>
+                <button class="cat-btn" onclick="filterCategory('uncoated')">ผักสลัด (ไม่เคลือบ)</button>
+                <button class="cat-btn" onclick="filterCategory('thai_other')">ผักไทยและอื่นๆ</button>
+                <button class="cat-btn" onclick="filterCategory('herbs_special')">สมุนไพร/พืชพิเศษ</button>
+                <button class="cat-btn" onclick="filterCategory('iot_tech')">Smart IoT Solutions</button>
+            </div>
+
+            <div class="search-sort">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 ค้นหาสินค้า..." oninput="handleSearch()">
+                <select id="sortSelect" class="sort-select" onchange="handleSort()">
+                    <option value="default">เรียงลำดับมาตรฐาน</option>
+                    <option value="price-asc">ราคา: ต่ำ -> สูง</option>
+                    <option value="price-desc">ราคา: สูง -> ต่ำ</option>
+                    <option value="name">ชื่อสินค้า (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Product Grid Display -->
+        <div class="product-grid" id="productGrid"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hydroinhome Co., Ltd. All rights reserved. | KMUTT Ecosystem Partner</p>
+        <p style="font-size: 0.8rem; margin-top: 5px; color: #66bb6a;">โซลูชันฟาร์มอัจฉริยะ IoT & AI Analytics และจัดจำหน่ายเมล็ดพันธุ์ทางการเกษตร</p>
+    </footer>
+
+    <!-- JavaScript Data & Functional Code -->
+    <script>
+        // 1. ข้อมูลสินค้าตามรายการ (Initial Master Products Data)
+        const defaultProducts = [
+            // เมล็ดผักสลัด (เคลือบ) - ซองละ 25 เมล็ด ราคา 20 บาท
+            { id: 1, name: "กรีนโอ๊ค (Green Oak)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 2, name: "เรดโอ๊ค (Red Oak)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1556801712-76c8eb07ebb9?w=400&q=80" },
+            { id: 3, name: "เรดคอรอล (Red Coral)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 4, name: "กรีนคอรอล (Green Coral)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 5, name: "บัตเตอร์เฮด (Butterhead)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80" },
+            { id: 6, name: "เซอโรกี (Cherokee)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1556801712-76c8eb07ebb9?w=400&q=80" },
+            { id: 7, name: "กรีนคอส (Green Cos)", category: "coated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+
+            // เมล็ดผักสลัด (ไม่เคลือบ) - ซองละ 25 เมล็ด ราคา 20 บาท
+            { id: 8, name: "ฟิลเลย์ (Frillice)", category: "uncoated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 9, name: "สปาต้า (Sparta)", category: "uncoated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 10, name: "กาดแก้ว (Iceberg)", category: "uncoated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80" },
+            { id: 11, name: "เบบี้คอส (Baby Cos)", category: "uncoated", price: 20, spec: "ซองละ 25 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+
+            // เมล็ดผักไทยและอื่นๆ - ซองละ 100 เมล็ด ราคา 15 บาท
+            { id: 12, name: "ร็อกเก็ต (Rocket)", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 13, name: "มิซูน่า (Mizuna)", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 14, name: "กวางตุ้ง", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 15, name: "ฮ่องเต้", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 16, name: "คะน้าฮ่องกง", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 17, name: "คะน้า", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 18, name: "เห็ดหอม", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80" },
+            { id: 19, name: "ปวยเล้ง", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80" },
+            { id: 20, name: "โขมเขียว", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80" },
+            { id: 21, name: "ขึ้นฉ่าย", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 22, name: "ผักชี", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 23, name: "พาสลี่หยิก", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 24, name: "พาสลี่แบน", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+            { id: 25, name: "เบซิล (Basil)", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1608683238429-9e20551a37c0?w=400&q=80" },
+            { id: 26, name: "ผักบุ้ง", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 27, name: "วอเตอร์เครส", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 28, name: "ไดโดเกียว", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 29, name: "ปูเล่", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 30, name: "ตั้งโอ๋", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 31, name: "บอคลอย", category: "thai_other", price: 15, spec: "ซองละ 100 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+
+            // สมุนไพรและพืชพิเศษ
+            { id: 32, name: "โรสแมรี่", category: "herbs_special", price: 15, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80" },
+            { id: 33, name: "ไทม์", category: "herbs_special", price: 15, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80" },
+            { id: 34, name: "ออริกาโน่", category: "herbs_special", price: 15, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80" },
+            { id: 35, name: "มะเขือเทศเชอรี่", category: "herbs_special", price: 15, spec: "ซองละ 5 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&q=80" },
+            { id: 36, name: "เมล่อนธิเบต", category: "herbs_special", price: 20, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=400&q=80" },
+            { id: 37, name: "เมล่อนญี่ปุ่น", category: "herbs_special", price: 20, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=400&q=80" },
+            { id: 38, name: "เมล่อนเอเมอรอต", category: "herbs_special", price: 35, spec: "ซองละ 5 เมล็ด", isHot: true, img: "https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=400&q=80" },
+            { id: 39, name: "เอนไดว์", category: "herbs_special", price: 20, spec: "ซองละ 25 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" },
+            { id: 40, name: "แตงกวาญี่ปุ่น", category: "herbs_special", price: 20, spec: "ซองละ 10 เมล็ด", isHot: false, img: "https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?w=400&q=80" },
+
+            // โซลูชัน IoT Smart Farming ของบริษัท
+            { id: 41, name: "ชุดเซ็นเซอร์ EC & pH Precision Node", category: "iot_tech", price: 4500, spec: "รองรับการวัดค่า pH/EC แม่นยำสูง", isHot: true, img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&q=80" },
+            { id: 42, name: "Smart Farm IoT Gateway Box", category: "iot_tech", price: 8900, spec: "เชื่อมต่อ Cloud Analytics & AI Alert", isHot: true, img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80" }
+        ];
+
+        // State Variables
+        let products = JSON.parse(localStorage.getItem('hih_products')) || defaultProducts;
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let currentSort = 'default';
+        let cartCount = 0;
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+        });
+
+        // Save Products to LocalStorage
+        function saveProducts() {
+            localStorage.setItem('hih_products', JSON.stringify(products));
+        }
+
+        // Render Product Cards
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            // Filter
+            let filtered = products.filter(p => {
+                const matchCategory = activeCategory === 'all' || p.category === activeCategory;
+                const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    p.spec.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            // Sort
+            if (currentSort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-msg">ไม่พบรายการสินค้าที่คุณค้นหา</div>`;
+                return;
+            }
+
+            const categoryNames = {
+                coated: 'ผักสลัด (เคลือบ)',
+                uncoated: 'ผักสลัด (ไม่เคลือบ)',
+                thai_other: 'ผักไทยและอื่นๆ',
+                herbs_special: 'สมุนไพรและพืชพิเศษ',
+                iot_tech: 'Smart IoT & Sensor'
+            };
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    ${p.isHot ? '<span class="badge-hot">สินค้าขายดี</span>' : ''}
+                    <img src="${p.img || 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80'}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/400x180?text=HydroInHome'">
+                    <div class="product-info">
+                        <span class="product-cat">${categoryNames[p.category] || p.category}</span>
+                        <h3 class="product-title">${p.name}</h3>
+                        <p class="product-desc">${p.spec}</p>
+                        <div class="product-price-row">
+                            <span class="product-price">฿${p.price.toLocaleString()}</span>
+                            <button class="btn-add-cart" onclick="addToCart('${p.name}')">เพิ่มใส่ตะกร้า</button>
+                        </div>
+                        <button class="btn-delete" style="display: ${document.getElementById('adminPanel').classList.contains('active') ? 'block' : 'none'};" onclick="deleteProduct(${p.id})">🗑️ ลบสินค้านี้</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Category Filter Function
+        function filterCategory(cat) {
+            activeCategory = cat;
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts();
+        }
+
+        // Search Function
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderProducts();
+        }
+
+        // Sort Function
+        function handleSort() {
+            currentSort = document.getElementById('sortSelect').value;
+            renderProducts();
+        }
+
+        // Add to Cart Mockup
+        function addToCart(productName) {
+            cartCount++;
+            document.getElementById('cartCount').innerText = cartCount;
+            alert(`เพิ่ม "${productName}" ลงในตะกร้าเรียบร้อยแล้ว!`);
+        }
+
+        // Toggle Admin Panel
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('active');
+            renderProducts(); // Refresh to toggle delete buttons
+        }
+
+        // Add New Product (Dynamic Product Addition)
+        function handleAddProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('pName').value;
+            const category = document.getElementById('pCategory').value;
+            const price = parseFloat(document.getElementById('pPrice').value);
+            const spec = document.getElementById('pSpec').value;
+            const img = document.getElementById('pImg').value;
+            const isHot = document.getElementById('pHot').checked;
+
+            const newProduct = {
+                id: Date.now(),
+                name,
+                category,
+                price,
+                spec,
+                isHot,
+                img: img ? img : 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80'
+            };
+
+            products.unshift(newProduct);
+            saveProducts();
+            renderProducts();
+            
+            document.getElementById('addProductForm').reset();
+            alert('เพิ่มสินค้าใหม่สำเร็จ!');
+        }
+
+        // Delete Product
+        function deleteProduct(id) {
+            if (confirm('คุณต้องการลบรายการสินค้านี้ใช่หรือไม่?')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                renderProducts();
+            }
+        }
+    </script>
+</body>
+</html>
+shop.html
+Displaying shop.html.
